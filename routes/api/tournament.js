@@ -21,6 +21,17 @@ router.post("/addTournament", async (req, res) => {
   });
 });
 
+router.get("/getUserTournaments", async (req, res) => {
+  const id_user = req.query.id;
+
+  console.log("on est dans get user tournmanet");
+  const sql = `SELECT * FROM tournaments JOIN types ON types.id_type = tournaments.id_type WHERE tournaments.id_user =  ${id_user} ORDER BY tournaments.id_tour ASC`;
+  connection.query(sql, (err, result) => {
+    if (err) throw err;
+    res.send(JSON.stringify(result));
+  });
+});
+
 //function to get all the tournaments with all the data (participants and type)
 // router.get("/getAllTournaments", async (req, res) => {
 //   const sql =
