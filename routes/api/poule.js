@@ -7,22 +7,36 @@ router.post("/addPoule", async (req, res) => {
   const number = req.body[0].number;
 
   const nbPoules = number / 4;
-  console.log(nbPoules);
 
   const sql = `SELECT * FROM tour_part JOIN participants ON participants.id_part = tour_part.id_part WHERE tour_part.id_tour = ${id_tour} ORDER BY RAND()`;
   connection.query(sql, (err, result) => {
     if (err) throw err;
 
-    for (let i = 1; i <= number; i++) {
-      //   console.log("i : " + i);
-      const poules = result.slice(i, i + 4);
-      //   console.log(poules);
-      console.log(i);
-      for (let y = 0; y < 4; y++) {
-        // console.log(y);
-        console.log(poules[y].name_part);
+    if (nbPoules === 1) {
+      for (let i = 0; i < number; i++) {
+        console.log(result[i].id_part);
+        const insertPoule = `INSERT INTO poules(id_tour, place, id_part) VALUES(${id_tour}, ${
+          i + 1
+        }, ${result[i].id_part})`;
+        connection.query(insertPoule, (err, result) => {
+          if (err) throw err;
+        });
       }
-      i = i + 3;
+    } else {
+      for (let i = 0; i < number; i++) {
+        console.log("i : " + i);
+
+        const poules = result.slice(i, i + 4);
+        for (let y = 0; y < 4; y++) {
+          const insertPoule = `INSERT INTO poules(id_tour, place, id_part) VALUES(${id_tour}, ${
+            y + 1
+          }, ${result[y].id_part})`;
+          connection.query(insertPoule, (err, result) => {
+            if (err) throw err;
+          });
+        }
+        i = i + 3;
+      }
     }
   });
 
