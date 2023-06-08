@@ -30,7 +30,7 @@ router.post("/addPoule", async (req, res) => {
         for (let y = 0; y < 4; y++) {
           const insertPoule = `INSERT INTO poules(id_tour, place, id_part) VALUES(${id_tour}, ${
             y + 1
-          }, ${result[y].id_part})`;
+          }, ${poules[y].id_part})`;
           connection.query(insertPoule, (err, result) => {
             if (err) throw err;
           });
@@ -41,6 +41,15 @@ router.post("/addPoule", async (req, res) => {
   });
 
   res.send(JSON.stringify(true));
+});
+
+router.get("/getPoules", async (req, res) => {
+  const id_tour = req.query.id;
+  const sql = `SELECT * FROM poules JOIN participants ON participants.id_part = poules.id_part WHERE poules.id_tour = ${id_tour}`;
+  connection.query(sql, (err, result) => {
+    if (err) throw err;
+    res.send(JSON.stringify(result));
+  });
 });
 
 module.exports = router;

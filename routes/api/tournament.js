@@ -23,8 +23,6 @@ router.post("/addTournament", async (req, res) => {
 
 router.get("/getUserTournaments", async (req, res) => {
   const id_user = req.query.id;
-
-  console.log("on est dans get user tournmanet");
   const sql = `SELECT * FROM tournaments JOIN types ON types.id_type = tournaments.id_type WHERE tournaments.id_user =  ${id_user} ORDER BY tournaments.id_tour ASC`;
   connection.query(sql, (err, result) => {
     if (err) throw err;
@@ -32,30 +30,12 @@ router.get("/getUserTournaments", async (req, res) => {
   });
 });
 
-//function to get all the tournaments with all the data (participants and type)
-// router.get("/getAllTournaments", async (req, res) => {
-//   const sql =
-//     // "SELECT * FROM tournaments JOIN types ON tournaments.id_type = types.id_type JOIN part_tour ON tournaments.id_tour = part_tour.id_tour JOIN participants ON part_tour.id_part = participants.id_part";
-//     `SELECT * FROM tournaments`;
-
-//   connection.query(sql, (err, result) => {
-//     if (err) throw err;
-//     res.send(JSON.stringify(result));
-//   });
-// });
-
-// router.get("/getTournament", async (req, res) => {
-//   console.log("on est dans le back");
-//   const id = req.query.id;
-//   console.log(id);
-
-//   // const sql = `SELECT * FROM participants JOIN part_tour ON part_tour.id_part = participants.id_part JOIN tournaments ON part_tour.id_tour = tournaments.id_tour JOIN types ON types.id_type = tournaments.id_type WHERE part_tour.id_tour= ${id} ORDER BY RAND()`;
-//   const sql = `SELECT * FROM tournaments JOIN types ON types.id_type = tournaments.id_type WHERE tournaments.id_tour= ${id}`;
-//   console.log(sql);
-//   connection.query(sql, (err, result) => {
-//     if (err) throw err;
-//     res.send(JSON.stringify(result));
-//   });
-// });
-
+router.get("/getAllTournaments", async (req, res) => {
+  const sql =
+    "SELECT * FROM tournaments JOIN types ON types.id_type= tournaments.id_type";
+  connection.query(sql, (err, result) => {
+    if (err) throw err;
+    res.send(JSON.stringify(result));
+  });
+});
 module.exports = router;
