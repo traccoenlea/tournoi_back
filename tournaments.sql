@@ -77,7 +77,6 @@ CREATE TABLE `poules` (
 CREATE TABLE `tournaments` (
   `id_tour` int(11) NOT NULL,
   `name_tour` varchar(255) NOT NULL,
-  `number_tour` int(11) DEFAULT NULL,
   `id_user` int(11) NOT NULL,
   `id_type` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
