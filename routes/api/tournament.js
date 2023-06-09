@@ -38,4 +38,13 @@ router.get("/getAllTournaments", async (req, res) => {
     res.send(JSON.stringify(result));
   });
 });
+
+router.get("/getATournament", async (req, res) => {
+  const id_tour = req.query.id;
+  const sql = `SELECT * FROM tournaments WHERE id_tour = ${id_tour}`;
+  connection.query(sql, (err, result) => {
+    if (err) throw err;
+    res.send(JSON.stringify(result));
+  });
+});
 module.exports = router;
